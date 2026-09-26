@@ -1,0 +1,6 @@
+.single-line {
+  width: 100px; /* 너비 지정 필수 */
+  white-space: nowrap; /* 줄바꿈 방지 */
+  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis; /* 말줄임표(...) 표시 */
+}
