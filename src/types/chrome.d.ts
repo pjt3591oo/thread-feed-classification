@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // 기본적인 Chrome API 타입 확장
 declare namespace chrome {
   namespace runtime {

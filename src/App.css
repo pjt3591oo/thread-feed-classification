@@ -4,3 +4,385 @@
   overflow: hidden; /* 넘치는 텍스트 숨김 */
   text-overflow: ellipsis; /* 말줄임표(...) 표시 */
 }
+
+:root {
+  font-family:
+    "Pretendard", "Noto Sans KR", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #202431;
+  background: #f3f5f9;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  text-align: left;
+}
+
+.threads-app {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  align-items: start;
+  gap: 20px;
+  padding: 24px;
+}
+
+.settings-card {
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e3e7ef;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgb(28 39 64 / 3%);
+}
+
+.section-header h1 {
+  margin: 7px 0 8px;
+  font-size: 21px;
+  font-weight: 750;
+  line-height: 1.35;
+  letter-spacing: -0.7px;
+}
+
+.section-header p {
+  margin: 0;
+  color: #687386;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.eyebrow {
+  color: #5363ce;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 1.5px;
+}
+
+.settings-fields {
+  display: grid;
+  gap: 17px;
+  margin-top: 26px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field > span {
+  color: #465167;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.field input {
+  width: 100%;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid #dce2ec;
+  border-radius: 9px;
+  background: #fafbfe;
+  color: #202431;
+  font: inherit;
+  font-size: 12px;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.field input::placeholder {
+  color: #8992a3;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #6373e5;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgb(99 115 229 / 13%);
+}
+
+.settings-actions {
+  display: grid;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 36px;
+  padding: 9px 12px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.4;
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease;
+}
+
+.button-primary {
+  background: #4e5fce;
+  color: #fff;
+}
+
+.button-primary:hover {
+  background: #3e4eb5;
+  border-color: transparent;
+}
+
+.button-secondary {
+  background: #fff;
+  border-color: #e1e5ee;
+  color: #596478;
+}
+
+.button-secondary:hover {
+  background: #f4f6fa;
+  border-color: #cbd2df;
+}
+
+.button-danger {
+  flex-shrink: 0;
+  background: #fff;
+  border-color: #ebdadd;
+  color: #a53e4a;
+}
+
+.button-danger:hover {
+  background: #fff0f2;
+  border-color: #d8b1b8;
+}
+
+.button:focus-visible,
+.post-link:focus-visible {
+  outline: 3px solid #6373e5;
+  outline-offset: 3px;
+}
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.posts-panel {
+  min-width: 0;
+}
+
+.posts-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 4px 0 25px;
+}
+
+.list-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.list-summary h2 {
+  margin: 0;
+  color: #4c576a;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.count-badge {
+  min-width: 25px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: #e5e9fc;
+  color: #4352b5;
+  font-size: 11px;
+  font-weight: 750;
+  text-align: center;
+}
+
+.post-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.post-card {
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid #e1e6ef;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgb(28 39 64 / 2%);
+}
+
+.post-author {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.avatar {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #eef0fc;
+  color: #5260bc;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.post-author h3 {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #30394a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.post-text {
+  margin: 14px 0 17px;
+  color: #414b5d;
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.post-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #f0f2f6;
+}
+
+.post-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #f0f2f5;
+  color: #626c7d;
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.politics-political {
+  background: #fff1e4;
+  color: #92501b;
+}
+
+.politics-nonPolitical {
+  background: #e8f5ef;
+  color: #2e7455;
+}
+
+.ai-suspectedAi {
+  background: #f0eaff;
+  color: #7348b2;
+}
+
+.ai-noClearEvidence {
+  background: #eaf2fc;
+  color: #3b6397;
+}
+
+.post-link {
+  flex-shrink: 0;
+  color: #5363bd;
+  font-size: 11px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.post-link:hover {
+  color: #344498;
+  text-decoration: underline;
+}
+
+.empty-state {
+  padding: 48px 18px;
+  border: 1px dashed #cdd5e4;
+  border-radius: 14px;
+  background: rgb(255 255 255 / 60%);
+  text-align: center;
+}
+
+.empty-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  background: #e9edfa;
+  color: #6572b5;
+  font-size: 27px;
+}
+
+.empty-state h3 {
+  margin: 0 0 8px;
+  color: #455168;
+  font-size: 14px;
+}
+
+.empty-state p,
+.analysis-note {
+  color: #707b8e;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.empty-state p {
+  margin: 0;
+}
+
+.analysis-note {
+  margin: 16px 2px 0;
+}
+
+@media (max-width: 600px) {
+  .threads-app {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .settings-fields {
+    margin-top: 18px;
+  }
+
+  .settings-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .posts-header {
+    margin-top: 8px;
+  }
+}
