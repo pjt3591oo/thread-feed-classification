@@ -22,5 +22,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/content.js"]
+  "include": ["src", "src/content.js", "src/background/background.ts", "src/types/post.ts"],
 }

@@ -1,67 +1,7 @@
-type Post = {
-  shortcode: string;
-  text?: string;
-  rawText?: string;
-  permalink: string;
-  politics: "political" | "nonPolitical" | "uncertain";
-  aiAuthorship: "suspectedAi" | "noClearEvidence" | "uncertain";
-};
+import { type Post } from "../types/post";
 
 // 여러 수집 메시지가 동시에 와도 순서대로 저장
 let saveQueue: Promise<void> = Promise.resolve();
-
-let lastIndex = 0;
-let intervalId;
-
-async function batchInference() {
-  intervalId = setInterval(async() => {
-
-    const saved = await chrome.storage.local.get([
-      "jevHost", 
-      "jevPort", 
-      "jevApiKey", 
-      "posts"
-    ]);
-
-    const posts = saved.posts ?? [];
-    const newPosts = posts.slice(lastIndex);
-
-    if (newPosts.length > 0) {
-      for (const post of newPosts) {
-        console.log(lastIndex)
-        // const response = await fetch(
-        //   saved.jevHost + ":" + saved.jevPort + "/v1/systemone", 
-        //   {
-        //     method: "POST",
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //       "Authorization": "Bearer "+ saved.jevApiKey
-        //     },
-        //     body: JSON.stringify({
-        //       "model": "jev-1.13.0",
-        //       "answers": {
-        //         "is_urgent": { "type": "noul", "noul": 0.95 },
-        //         "department": {
-        //           "type": "choice", "choice": "billing", "confidence": 0.98,
-        //           "probabilities": { "billing": 0.99, "technical": 0.01, "sales": 0.0 }
-        //         },
-        //         "frustration": {
-        //           "type": "score", "score": 1.04, "confidence": 0.94,
-        //           "legend": { "0": "Calm", "1": "Frustrated", "2": "Very angry" },
-        //           "probabilities": { "0": 0.0, "1": 0.96, "2": 0.04 }
-        //         }
-        //       },
-        //       "usage": { "input_tokens": 379, "output_tokens": 70 }
-        //     }),
-        //   }
-        // );
-        // const result = await response.json();
-        // console.log(result);
-      }
-      lastIndex = newPosts.length;
-    }
-  }, 1000)
-}
 
 chrome.runtime.onMessage.addListener(
   (message, _sender, sendResponse) => {
@@ -70,6 +10,8 @@ chrome.runtime.onMessage.addListener(
       chrome.storage.local.set({ jevHost: host, jevPort: port, jevApiKey: apiKey })
         .then(() => sendResponse({ ok: true }))
         .catch((error) => sendResponse({ ok: false, error: String(error) }));
+      
+      return true; 
     } else if (message.action === "POSTS_COLLECTED") {
       const task = saveQueue.then(async () => {
       const saved = await chrome.storage.local.get(["jevHost", "jevPort", "jevApiKey", "posts"]);
@@ -184,12 +126,13 @@ chrome.runtime.onMessage.addListener(
       return true;
     } else if (message.action === "STOP_COLLECTING") {
       console.log("Stopping collection and clearing interval.");
-      clearInterval(intervalId);
     } else if (message.action === "CLEAR_POSTS") {
       saveQueue = saveQueue.then(async () => {
         await chrome.storage.local.set({ posts: [] });
-        lastIndex = 0; // Reset lastIndex when clearing posts
+        sendResponse({ ok: true, count: 0, msg: "Posts cleared successfully." });
       }); 
+
+       return true;
     }
   }
 );

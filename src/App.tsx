@@ -1,15 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-
-type Post = {
-  shortcode: string;
-  text?: string;
-  rawText?: string;
-  permalink: string;
-  username: string;
-  politics: "political" | "nonPolitical" | "uncertain";
-  aiAuthorship: "suspectedAi" | "noClearEvidence" | "uncertain";
-};
+import { type Post } from './types/post';
 
 type LocalStorageData = {
   posts?: Post[];
@@ -46,22 +37,33 @@ function App() {
   }, [])
 
   const onClearPostsHandler = async () => {
-    await chrome.runtime.sendMessage({
+    const response = await chrome.runtime.sendMessage({
       action: "CLEAR_POSTS",
     });
+    
+    if(response && response.ok) {
+      setPosts([]);
+    } else {
+      console.error("Failed to clear posts:", response?.msg);
+    }
   }
 
   const onClickJevSettingsSave = async (host: string, port: string, apiKey: string) => {
-    await chrome.runtime.sendMessage({
+    const response = await chrome.runtime.sendMessage({
         action: "JEV_SETTINGS_SAVE",
         host,
         port,
         apiKey
       });
 
-      setJevHost(host);
-      setJevPort(port);
-      setJevApiKey(apiKey);
+      if (response && response.ok) {
+        console.log("JEV settings saved successfully.");
+        setJevHost(host);
+        setJevPort(port);
+        setJevApiKey(apiKey);
+      } else {
+        console.error("Failed to save JEV settings:", response?.error);
+      }
   };
 
 return (
